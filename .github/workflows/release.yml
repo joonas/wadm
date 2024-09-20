@@ -188,11 +188,13 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
+          pattern: '*linux*'
           path: ./artifacts
           merge-multiple: true
       - run: |
           ls -lah .
           ls -lah ./artifacts
+          ls -lah ./artifacts/wadm
           chmod +x ./artifacts/wadm-${{ env.RELEASE_VERSION }}-linux-aarch64
           chmod +x ./artifacts/wadm-${{ env.RELEASE_VERSION }}-linux-amd64
 
