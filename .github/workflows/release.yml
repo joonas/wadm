@@ -190,13 +190,21 @@ jobs:
         with:
           pattern: '*linux*'
           path: ./artifacts
-          # merge-multiple: true
-      - run: |
-          ls -lah .
-          ls -lah ./artifacts
-          ls -lah ./artifacts/wadm*
-          chmod +x ./artifacts/wadm-${{ env.RELEASE_VERSION }}-linux-aarch64
-          chmod +x ./artifacts/wadm-${{ env.RELEASE_VERSION }}-linux-amd64
+
+      - name: "debug"
+        working-directory: ./artifacts
+        run: |
+          ls -lah *
+
+          for dir in */; do
+            name="${dir%/}"
+            mv "${name}/wadm" wadm
+            chmod +x wadm
+            rmdir "${name}"
+            mv wadm "${name}"
+          done
+
+          ls -lah *
 
 #      - name: Login to GitHub Container Registry
 #        uses: docker/login-action@v3
